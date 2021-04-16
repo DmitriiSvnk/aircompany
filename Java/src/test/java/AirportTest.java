@@ -8,7 +8,7 @@ import planes.Plane;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import java.util.Arrays;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class AirportTest {
 
     private static PassengerPlane planeWithMaxPassengerCapacity = new PassengerPlane("Boeing-747", 980, 16100, 70500, 242);
 
-    @BeforeTest
+    @BeforeMethod
     private void rebuildAirportAfterUsage() {
         airport = new Airport(planes);
     }
