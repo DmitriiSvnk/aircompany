@@ -8,10 +8,7 @@ import planes.PassengerPlane;
 import planes.Plane;
 import planes.ExperimentalPlane;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Airport {
@@ -21,10 +18,9 @@ public class Airport {
         this.planes = planes;
     }
 
-    public List<PassengerPlane> getPassederPlanes() {
-        List<? extends Plane> l = this.planes;
-        return l.stream()
-                .filter(p -> p instanceof PassengerPlane)
+    public List<PassengerPlane> getPassengerPlanes() {
+        return this.planes.stream()
+                .filter(PassengerPlane.class::isInstance)
                 .map(PassengerPlane.class::cast)
                 .collect(Collectors.toList());
     }
@@ -40,7 +36,7 @@ public class Airport {
     }
 
     public PassengerPlane getPassengerPlaneWithMaxPassengersCapacity() {
-        List<PassengerPlane> passengerPlanes = getPassederPlanes();
+        List<PassengerPlane> passengerPlanes = getPassengerPlanes();
         PassengerPlane planeWithMaxCapacity = passengerPlanes.get(0);
         for (PassengerPlane passengerPlane : passengerPlanes) {
             if (passengerPlane.getPassengersCapacity() > planeWithMaxCapacity.getPassengersCapacity()) {
@@ -74,23 +70,23 @@ public class Airport {
 
     public List<ExperimentalPlane> getExperimentalPlanes() {
         return planes.stream()
-                .filter(plane -> plane instanceof ExperimentalPlane)
+                .filter(ExperimentalPlane.class::isInstance)
                 .map(ExperimentalPlane.class::cast)
                 .collect(Collectors.toList());
     }
 
     public Airport sortByMaxDistance() {
-        Collections.sort(planes, ((o1, o2) -> (o1.getMaxFlightDistance() - o2.getMaxFlightDistance())));
+        planes.sort(Comparator.comparingInt(Plane::getMaxFlightDistance));
         return this;
     }
 
     public Airport sortByMaxSpeed() {
-        Collections.sort(planes, ((o1, o2) -> (o1.getMaxSpeed() - o2.getMaxSpeed())));
+        planes.sort(Comparator.comparingInt(Plane::getMaxSpeed));
         return this;
     }
 
     public Airport sortByMaxLoadCapacity() {
-        Collections.sort(planes, ((o1, o2) -> (o1.getMaxLoadCapacity() - o2.getMaxLoadCapacity())));
+        planes.sort(Comparator.comparingInt(Plane::getMaxLoadCapacity));
         return this;
     }
 
